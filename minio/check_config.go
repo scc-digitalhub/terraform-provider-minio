@@ -209,3 +209,17 @@ func KMSKeyConfig(d *schema.ResourceData, meta interface{}) *S3MinioKMSKeyConfig
 		MinioKMSKeyID: d.Get("key_id").(string),
 	}
 }
+
+// IAMUserConfig creates new user config
+func STSKeyConfig(d *schema.ResourceData, meta interface{}) *S3MinioSTSKeyConfig {
+	m := meta.(*S3MinioClient)
+
+	return &S3MinioSTSKeyConfig{
+		MinioClient:          m.S3Client,
+		MinioOIDCIdToken:     d.Get("oidc_id_token").(string),
+		MinioOIDCAccessToken: d.Get("oidc_access_token").(string),
+		MinioAccessKeyId:     d.Get("access_key_id").(string),
+		MinioSecretAccessKey: d.Get("secret_access_key").(string),
+		MinioSessionToken:    d.Get("session_token").(string),
+	}
+}
